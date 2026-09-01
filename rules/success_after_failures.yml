@@ -1,0 +1,71 @@
+title: Authentication Failure Event for Compromise Correlation
+id: 4e5f2ca1-c12e-4f90-b1fe-218699417479
+name: authentication_failure_compromise
+status: experimental
+description: Selects failed authentication events used by the accompanying correlations.
+author: John Flanagan
+date: 2026-09-01
+logsource:
+    category: authentication
+detection:
+    selection:
+        outcome: failure
+    condition: selection
+level: informational
+---
+title: Repeated Authentication Failures
+id: b851effc-3296-40ef-a118-9b8e3ece222c
+name: repeated_authentication_failures
+status: experimental
+description: Detects five authentication failures from one source against one account within ten minutes.
+author: John Flanagan
+date: 2026-09-01
+correlation:
+    type: event_count
+    rules:
+        - authentication_failure_compromise
+    group-by:
+        - source_ip
+        - username
+    timespan: 10m
+    condition:
+        gte: 5
+level: high
+---
+title: Successful Authentication Event for Compromise Correlation
+id: a9e86840-ce69-499e-b148-ded97521e64b
+name: authentication_success_compromise
+status: experimental
+description: Selects successful authentication events used by the accompanying correlation rule.
+author: John Flanagan
+date: 2026-09-01
+logsource:
+    category: authentication
+detection:
+    selection:
+        outcome: success
+    condition: selection
+level: informational
+---
+title: Successful Login After Repeated Failures
+id: 308b5c0c-ce45-497e-9cf3-c7f2222097a4
+status: experimental
+description: Detects a successful login after five recent failures from the same source against the same account.
+author: John Flanagan
+date: 2026-09-01
+correlation:
+    type: temporal_ordered
+    rules:
+        - repeated_authentication_failures
+        - authentication_success_compromise
+    group-by:
+        - source_ip
+        - username
+    timespan: 10m
+falsepositives:
+    - A user remembering a password after repeated mistakes
+level: critical
+tags:
+    - attack.credential-access
+    - attack.t1110
+    - attack.t1078

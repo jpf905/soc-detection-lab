@@ -1,0 +1,20 @@
+title: Foreign Privileged Account Login
+id: 68a0d165-4bd5-466a-bf7a-1516b295c3a0
+status: experimental
+description: Detects a successful privileged login originating outside the expected operating country.
+author: John Flanagan
+date: 2026-09-01
+logsource:
+  category: authentication
+detection:
+  selection:
+    outcome: success
+    privileged: true
+  filter_expected_country:
+    source_country: US
+  condition: selection and not filter_expected_country
+falsepositives:
+  - Approved administrator travel or corporate VPN egress
+level: critical
+tags:
+  - attack.t1078

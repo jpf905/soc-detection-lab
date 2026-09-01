@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soc-detection-lab"
+version = "1.0.0"
+description = "A reproducible SOC detection engineering lab using synthetic authentication telemetry."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "John Flanagan"}]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+
+[project.optional-dependencies]
+dev = ["sigma-cli==3.1.0"]
+
+[project.scripts]
+soclab = "soclab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
