@@ -7,7 +7,6 @@
 
 A reproducible blue-team portfolio project that turns synthetic authentication telemetry into actionable alerts. It demonstrates log normalization, time-window correlation, detection engineering, MITRE ATT&CK mapping, testing, CI, incident analysis, and security reporting.
 
-**New to running projects on a Mac? Start with [MAC_SETUP.md](MAC_SETUP.md).** It explains installation, testing, dashboard viewing, Git setup, and GitHub publishing step by step.
 
 > **Ethical scope:** This repository contains defensive detection logic and synthetic data only. The reserved example IP ranges cannot identify real systems.
 
